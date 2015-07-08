@@ -59,12 +59,11 @@ var/list/name_to_material
 	var/destruction_desc = "breaks apart" // Fancy string for barricades/tables/objects exploding.
 
 	// Icons
-	var/icon_colour                       // Colour applied to products of this material.
-	var/icon_base = "metal"               // Wall and table base icon tag. See header.
-	var/door_icon_base = "metal"          // Door base icon tag. See header.
-	var/icon_reinf = "reinf_metal"        // Overlay used
-	var/stack_origin_tech = "materials=1" // Research level for stacks.
-	var/stack_per_sheet = 2000            // perunit value for stacks.
+	var/icon_colour                                      // Colour applied to products of this material.
+	var/icon_base = "metal"                              // Wall and table base icon tag. See header.
+	var/door_icon_base = "metal"                         // Door base icon tag. See header.
+	var/icon_reinf = "reinf_metal"                       // Overlay used
+	var/list/stack_origin_tech = list(TECH_MATERIAL = 1) // Research level for stacks.
 
 	// Attributes
 	var/cut_delay = 0            // Delay in ticks when cutting through this wall.
@@ -151,8 +150,8 @@ var/list/name_to_material
 	if(islist(composite_material))
 		for(var/material_string in composite_material)
 			temp_matter[material_string] = composite_material[material_string]
-	else if(stack_per_sheet)
-		temp_matter[name] = stack_per_sheet
+	else if(SHEET_MATERIAL_AMOUNT)
+		temp_matter[name] = SHEET_MATERIAL_AMOUNT
 	return temp_matter
 
 // As above.
@@ -210,7 +209,7 @@ var/list/name_to_material
 	icon_reinf = "reinf_stone"
 	icon_colour = "#007A00"
 	weight = 22
-	stack_origin_tech = "materials=5"
+	stack_origin_tech = list(TECH_MATERIAL = 5)
 	door_icon_base = "stone"
 
 /material/diamond
@@ -223,8 +222,7 @@ var/list/name_to_material
 	shard_type = SHARD_SHARD
 	tableslam_noise = 'sound/effects/Glasshit.ogg'
 	hardness = 100
-	stack_origin_tech = "materials=6"
-	stack_per_sheet = 3750
+	stack_origin_tech = list(TECH_MATERIAL = 6)
 
 /material/gold
 	name = "gold"
@@ -232,7 +230,7 @@ var/list/name_to_material
 	icon_colour = "#EDD12F"
 	weight = 24
 	hardness = 40
-	stack_origin_tech = "materials=4"
+	stack_origin_tech = list(TECH_MATERIAL = 4)
 
 /material/gold/bronze //placeholder for ashtrays
 	name = "bronze"
@@ -244,7 +242,7 @@ var/list/name_to_material
 	icon_colour = "#D1E6E3"
 	weight = 22
 	hardness = 50
-	stack_origin_tech = "materials=3"
+	stack_origin_tech = list(TECH_MATERIAL = 3)
 
 /material/phoron
 	name = "phoron"
@@ -254,7 +252,7 @@ var/list/name_to_material
 	icon_colour = "#FC2BC5"
 	shard_type = SHARD_SHARD
 	hardness = 30
-	stack_origin_tech = "phorontech=2;materials=2"
+	stack_origin_tech = list(TECH_MATERIAL = 2, TECH_PHORON = 2)
 	door_icon_base = "stone"
 
 /*
@@ -317,7 +315,7 @@ var/list/name_to_material
 	explosion_resistance = 25
 	hardness = 80
 	weight = 23
-	stack_origin_tech = "materials=2"
+	stack_origin_tech = list(TECH_MATERIAL = 2)
 	composite_material = list(DEFAULT_WALL_MATERIAL = 3750, "platinum" = 3750) //todo
 
 /material/glass
@@ -435,7 +433,7 @@ var/list/name_to_material
 	ignition_point = PHORON_MINIMUM_BURN_TEMPERATURE+300
 	integrity = 200 // idk why but phoron windows are strong, so.
 	icon_colour = "#FC2BC5"
-	stack_origin_tech = "materials=3;phorontech=2"
+	stack_origin_tech = list(TECH_MATERIAL = 3, TECH_PHORON = 2)
 	created_window = /obj/structure/window/phoronbasic
 	wire_product = null
 	rod_product = /obj/item/stack/material/glass/phoronrglass
@@ -443,10 +441,13 @@ var/list/name_to_material
 /material/glass/phoron/reinforced
 	name = "reinforced phoron glass"
 	stack_type = /obj/item/stack/material/glass/phoronrglass
-	stack_origin_tech = "materials=4;phorontech=2"
+	stack_origin_tech = list(TECH_MATERIAL = 4, TECH_PHORON = 2)
 	composite_material = list() //todo
 	created_window = /obj/structure/window/phoronreinforced
 	hardness = 40
+	weight = 30
+	stack_origin_tech = list(TECH_MATERIAL = 2)
+	composite_material = list() //todo
 	rod_product = null
 
 /material/plastic
@@ -459,7 +460,7 @@ var/list/name_to_material
 	hardness = 10
 	weight = 12
 	melting_point = T0C+371 //assuming heat resistant plastic
-	stack_origin_tech = "materials=3"
+	stack_origin_tech = list(TECH_MATERIAL = 3)
 
 /material/plastic/holographic
 	name = "holographic plastic"
@@ -471,33 +472,32 @@ var/list/name_to_material
 	name = "osmium"
 	stack_type = /obj/item/stack/material/osmium
 	icon_colour = "#9999FF"
-	stack_origin_tech = "materials=5"
+	stack_origin_tech = list(TECH_MATERIAL = 5)
 
 /material/tritium
 	name = "tritium"
 	stack_type = /obj/item/stack/material/tritium
 	icon_colour = "#777777"
-	stack_origin_tech = "materials=5"
+	stack_origin_tech = list(TECH_MATERIAL = 5)
 
 /material/mhydrogen
 	name = "mhydrogen"
 	stack_type = /obj/item/stack/material/mhydrogen
 	icon_colour = "#E6C5DE"
-	stack_origin_tech = "materials=6;powerstorage=5;magnets=5"
+	stack_origin_tech = list(TECH_MATERIAL = 6, TECH_POWER = 6, TECH_MAGNET = 5)
 
 /material/platinum
 	name = "platinum"
 	stack_type = /obj/item/stack/material/platinum
 	icon_colour = "#9999FF"
 	weight = 27
-	stack_origin_tech = "materials=2"
+	stack_origin_tech = list(TECH_MATERIAL = 2)
 
 /material/iron
 	name = "iron"
 	stack_type = /obj/item/stack/material/iron
 	icon_colour = "#5C5454"
 	weight = 22
-	stack_per_sheet = 3750
 
 // Adminspawn only, do not let anyone get this.
 /material/voxalloy
@@ -524,7 +524,7 @@ var/list/name_to_material
 	weight = 18
 	melting_point = T0C+300 //okay, not melting in this case, but hot enough to destroy wood
 	ignition_point = T0C+288
-	stack_origin_tech = "materials=1;biotech=1"
+	stack_origin_tech = list(TECH_MATERIAL = 1, TECH_BIO = 1)
 	dooropen_noise = 'sound/effects/doorcreaky.ogg'
 	door_icon_base = "wood"
 	destruction_desc = "splinters"
@@ -547,13 +547,13 @@ var/list/name_to_material
 	weight = 1
 	ignition_point = T0C+232 //"the temperature at which book-paper catches fire, and burns." close enough
 	melting_point = T0C+232 //temperature at which cardboard walls would be destroyed
-	stack_origin_tech = "materials=1"
+	stack_origin_tech = list(TECH_MATERIAL = 1)
 	door_icon_base = "wood"
 	destruction_desc = "crumples"
 
 /material/cloth //todo
 	name = "cloth"
-	stack_origin_tech = "materials=2"
+	stack_origin_tech = list(TECH_MATERIAL = 2)
 	door_icon_base = "wood"
 	ignition_point = T0C+232
 	melting_point = T0C+300
@@ -597,7 +597,7 @@ var/list/name_to_material
 /material/leather
 	name = "leather"
 	icon_colour = "#5C4831"
-	stack_origin_tech = "materials=2"
+	stack_origin_tech = list(TECH_MATERIAL = 2)
 	flags = MATERIAL_PADDING
 	ignition_point = T0C+300
 	melting_point = T0C+300

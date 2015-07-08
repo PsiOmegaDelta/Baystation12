@@ -29,8 +29,9 @@
 	desc = "A stack of sheets of [material.display_name]."
 	recipes = material.get_recipes()
 	stacktype = material.stack_type
-	origin_tech = material.stack_origin_tech
-	perunit = material.stack_per_sheet
+	if(islist(material.stack_origin_tech))
+		origin_tech = material.stack_origin_tech.Copy()
+	perunit = SHEET_MATERIAL_AMOUNT
 
 	if(apply_colour)
 		color = material.icon_colour

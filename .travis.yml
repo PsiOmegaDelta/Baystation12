@@ -46,3 +46,4 @@ script:
   - grep "All Unit Tests Passed" log.txt
   - (! grep "runtime error:" log.txt)
   - (! grep 'Process scheduler caught exception processing' log.txt)
+# Doom?

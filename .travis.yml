@@ -1,4 +1,5 @@
-language: generic
+#pretending we're C because otherwise ruby will initialize, even with "language: dm".
+language: c
 sudo: false
 
 env:

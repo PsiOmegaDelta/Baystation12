@@ -1,4 +1,4 @@
-/obj/machinery/uniform_vendor
+/obj/machinery/uniform_vendor 
 	name = "uniform vendor"
 	desc= "A uniform vendor for utility, service, and dress uniforms."
 	icon = 'icons/obj/vending.dmi'

@@ -166,3 +166,32 @@
 	else
 		pass("All /obj/random types have valid icon states.")
 	return 1
+
+/datum/unit_test/icon_test/all_atoms_shall_have_valid_icon_states
+	name = "ICON STATE - All atoms shall have valid icon states"
+
+/datum/unit_test/icon_test/all_atoms_shall_have_valid_icon_states/start_test()
+	var/states_per_icon = list()
+	var/invalid_paths = 0
+	for(var/atom_type in typesof(/atom))
+		var/atom/A = atom_type
+		var/icon = initial(A.icon)
+		var/icon_state = initial(A.icon_state)
+
+		if(isnull(icon_state))
+			continue
+
+		var/icon_states = states_per_icon[icon]
+		if(!icon_states)
+			icon_states = icon_states(icon)
+			states_per_icon[icon] = icon_states
+
+		if(!(icon_state in icon_states))
+			invalid_paths++
+			log_bad("[atom_type]: '[icon_state]' not in [icon]")
+
+	if(invalid_paths)
+		fail("[invalid_paths] type\s with invalid icon states:")
+	else
+		pass("All atoms have valid icon states.")
+	return TRUE
